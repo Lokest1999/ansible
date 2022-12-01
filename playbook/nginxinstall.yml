@@ -1,0 +1,26 @@
+---
+- name: install nginx
+  hosts: webservers
+  tasks:
+    - name: nginx installation
+      apt:
+        name: nginx 
+        state: present
+        update_cache: yes
+    - name: create index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: "wellcome to nginx via playbook ip 31 to loki"
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: allow firewall
+      ufw: 
+        rule: allow
+        port: '80'
+        proto: tcp
+        state: enabled
+      
+
